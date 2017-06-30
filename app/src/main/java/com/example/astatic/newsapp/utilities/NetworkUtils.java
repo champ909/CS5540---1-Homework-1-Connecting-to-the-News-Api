@@ -1,7 +1,5 @@
 package com.example.astatic.newsapp.utilities;
-
 import android.net.Uri;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,38 +9,41 @@ import java.net.URL;
 import java.util.Scanner;
 
 /**
- * Created by static on 6/21/2017.
- *
- * https://newsapi.org/v1/articles?source=the-next-web&sortBy=latest&apiKey=c8ef2db562e049c799cdf9bd1e3cf15b
+ * Created by static on 6/19/17.
  */
 
 public class NetworkUtils {
 
-    private static final String TAG = NetworkUtils.class.getSimpleName();
+    final static String News_URL =
+            "https://newsapi.org/v1/articles";
 
-    private static final String BASE_URL = "https://newsapi.org/v1/articles";
-
-    private static final String source = "the-next-web";
-
-    private static final String sort = "latest";
-
-    private static final String Key = "c8ef2db562e049c799cdf9bd1e3cf15b";
+    final static String PARAM_SOURCE="source";
+    final static String source="the-next-web";
 
 
-    final static String QUERY_PARAM = "q";
-      final static String source_PARAM = "source";
-    final static String sortBy_PARAM = "sortBy";
-    final static String APIKEY_PARAM = "apiKey";
-
-    public static URL buildUrl(String keys) {
+    final static String PARAM_SORT="sortBy";
+    final static String sortby="latest";
 
 
-        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+    final static String PARAM_API="apiKey";
+    final static String apikey="fa0f164779a54f41a9d16d0329bf51af";
 
-                .appendQueryParameter(source_PARAM, source)
-                .appendQueryParameter(sortBy_PARAM, sort)
-                .appendQueryParameter(APIKEY_PARAM, keys)
+
+
+
+
+
+    public static URL buildUrl() {
+
+
+
+
+        Uri builtUri = Uri.parse(News_URL).buildUpon()
+                .appendQueryParameter(PARAM_SOURCE,source)
+                .appendQueryParameter(PARAM_SORT,sortby)
+                .appendQueryParameter(PARAM_API,apikey)
                 .build();
+
 
         URL url = null;
         try {
@@ -51,19 +52,11 @@ public class NetworkUtils {
             e.printStackTrace();
         }
 
-        Log.v(TAG, "Built URI " + url);
-
         return url;
     }
 
-//builder.scheme("https")
-//        .authority("www.newsapi.org")
-//    .appendPath("turtles")
-//    .appendPath("types")
-//    .appendQueryParameter("type", "1")
-//    .appendQueryParameter("sort", "relevance")
-//    .fragment("section-name");
-//    String myUrl = builder.build().toString();
+
+
     public static String getResponseFromHttpUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
@@ -82,7 +75,4 @@ public class NetworkUtils {
             urlConnection.disconnect();
         }
     }
-
-
-
 }
